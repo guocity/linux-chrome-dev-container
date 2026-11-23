@@ -1,0 +1,3 @@
+# Chrome profiles, cookies, session data, and persisted GNOME keyring
+.chrome-profile/
+.DS_Store

@@ -1,0 +1,47 @@
+{
+  "name": "Ubuntu 24.04 + Google Chrome",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "24"
+    }
+  },
+  "remoteUser": "vscode",
+  "runArgs": [
+    "--shm-size=2g",
+    "--security-opt=seccomp=unconfined"
+  ],
+  "containerEnv": {
+    "DISPLAY": ":1",
+    "SCREEN_WIDTH": "1920",
+    "SCREEN_HEIGHT": "1080",
+    "SCREEN_DEPTH": "24",
+    "TZ": "America/New_York",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "CHROME_PROFILE_DIR": "${containerWorkspaceFolder}/.chrome-profile",
+    "CHROME_DEBUG_PORT": "9222"
+  },
+  "forwardPorts": [3000, 6080, 5901, 9222],
+  "portsAttributes": {
+    "3000": {
+      "label": "App Server"
+    },
+    "6080": {
+      "label": "Chrome Desktop (noVNC)",
+      "onAutoForward": "notify"
+    },
+    "5901": {
+      "label": "VNC Server",
+      "onAutoForward": "silent"
+    },
+    "9222": {
+      "label": "Chrome DevTools (CDP)",
+      "onAutoForward": "silent"
+    }
+  },
+  "postStartCommand": "start-desktop.sh && launch-chrome --background"
+}
