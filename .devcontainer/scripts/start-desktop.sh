@@ -85,6 +85,12 @@ if ! pgrep -x fluxbox >/dev/null 2>&1; then
   sleep 0.5
 fi
 
+# 4b. Start PCManFM desktop manager for desktop icons (e.g. Google Chrome)
+if ! pgrep -f "pcmanfm --desktop" >/dev/null 2>&1; then
+  setsid -f pcmanfm --desktop </dev/null >/tmp/pcmanfm.log 2>&1
+  sleep 0.3
+fi
+
 # 5. Start x11vnc (setsid detaches from parent session so SIGHUP cannot kill it)
 if ! pgrep -x x11vnc >/dev/null 2>&1; then
   setsid -f x11vnc -display "${DISPLAY}" -rfbport "${VNC_PORT}" -forever -shared -nopw -xkb -ncache 0 </dev/null >/tmp/x11vnc.log 2>&1

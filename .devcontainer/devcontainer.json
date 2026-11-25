@@ -43,5 +43,6 @@
       "onAutoForward": "silent"
     }
   },
+  "postCreateCommand": "npm install --global chrome-tools",
   "postStartCommand": "start-desktop.sh && launch-chrome --background"
 }

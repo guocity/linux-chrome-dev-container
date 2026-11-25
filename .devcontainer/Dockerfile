@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
 ARG TARGETARCH
 ENV DEBIAN_FRONTEND=noninteractive
+ENV DISPLAY=:1
 
 # 1. Core desktop (Xvfb, Fluxbox, x11vnc, noVNC), Password Manager (D-Bus, gnome-keyring),
 #    PulseAudio virtual audio, GL/Mesa, and realistic Linux desktop fonts
@@ -9,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Display & VNC / noVNC
     xvfb \
     fluxbox \
+    pcmanfm \
     x11vnc \
     novnc \
     websockify \
@@ -82,6 +84,19 @@ RUN mkdir -p /home/vscode/.fluxbox \
       '  [restart] (Restart)' \
       '[end]' \
       > /home/vscode/.fluxbox/menu \
-    && chown -R vscode:vscode /home/vscode/.fluxbox
+    && mkdir -p /home/vscode/Desktop \
+    && printf '%s\n' \
+      '[Desktop Entry]' \
+      'Version=1.0' \
+      'Type=Application' \
+      'Name=Google Chrome' \
+      'Comment=Access the Internet' \
+      'Exec=/usr/local/bin/launch-chrome' \
+      'Icon=google-chrome' \
+      'Terminal=false' \
+      'Categories=Network;WebBrowser;' \
+      > /home/vscode/Desktop/google-chrome.desktop \
+    && chmod +x /home/vscode/Desktop/google-chrome.desktop \
+    && chown -R vscode:vscode /home/vscode/.fluxbox /home/vscode/Desktop
 
 USER vscode
